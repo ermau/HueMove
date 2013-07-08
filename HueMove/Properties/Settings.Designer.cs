@@ -49,18 +49,6 @@ namespace HueMove.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("01:30:00")]
-        public global::System.TimeSpan WorkTime {
-            get {
-                return ((global::System.TimeSpan)(this["WorkTime"]));
-            }
-            set {
-                this["WorkTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0.085")]
         public double BreakRatio {
             get {
@@ -80,6 +68,18 @@ namespace HueMove.Properties {
             }
             set {
                 this["SnoozeTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("01:00:00")]
+        public global::System.TimeSpan WorkTime {
+            get {
+                return ((global::System.TimeSpan)(this["WorkTime"]));
+            }
+            set {
+                this["WorkTime"] = value;
             }
         }
     }

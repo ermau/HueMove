@@ -8,14 +8,14 @@
     <Setting Name="BridgeUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="WorkTime" Type="System.TimeSpan" Scope="User">
-      <Value Profile="(Default)">01:30:00</Value>
-    </Setting>
     <Setting Name="BreakRatio" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.085</Value>
     </Setting>
     <Setting Name="SnoozeTime" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">00:10:00</Value>
+    </Setting>
+    <Setting Name="WorkTime" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">01:00:00</Value>
     </Setting>
   </Settings>
 </SettingsFile>
