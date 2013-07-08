@@ -4,7 +4,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:metro="http://schemas.codeplex.com/elysium"
 		mc:Ignorable="d" x:Class="HueMove.SelectBridgeWindow"
-		Title="Select Bridge" Height="300" Width="300"
+		Title="hue bridges" Height="300" Width="300"
 		ResizeMode="NoResize" BorderBrush="{x:Static metro:AccentBrushes.Blue}" BorderThickness="1">
 	
 	<Grid>
