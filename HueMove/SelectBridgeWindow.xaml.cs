@@ -24,6 +24,7 @@
 
 using System;
 using System.Linq;
+using System.Windows;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace HueMove
@@ -37,8 +38,21 @@ namespace HueMove
 		{
 			InitializeComponent();
 			
-			Messenger.Default.Register<BridgeSelectedMessage> (this, msg => Close());
+			Messenger.Default.Register<BridgeSelectedMessage> (this, msg => {
+				this.closeApp = false;
+				Close();
+			});
+
 			DataContext = new SelectBridgeViewModel();
+		}
+
+		private bool closeApp = true;
+
+		protected override void OnClosed (EventArgs e)
+		{
+			base.OnClosed (e);
+			if (this.closeApp)
+				Application.Current.Shutdown();
 		}
 	}
 }
