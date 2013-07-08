@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:metro="http://schemas.codeplex.com/elysium"
         Title="ConnectWindow" Height="70" Width="200"
-		ShowInTaskbar="False" ResizeMode="NoResize" WindowStyle="None">
+		ShowInTaskbar="False" ResizeMode="NoResize" WindowStyle="None"
+		BorderBrush="{x:Static metro:AccentBrushes.Blue}" BorderThickness="1">
 
-	<Border BorderBrush="{x:Static metro:AccentBrushes.Blue}" BorderThickness="1">
-		<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">press connect on your Hue Hub</TextBlock>
-	</Border>
+	<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">press connect on your Hue Hub</TextBlock>
 </metro:Window>
