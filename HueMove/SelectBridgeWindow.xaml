@@ -14,6 +14,6 @@
 		</Grid.RowDefinitions>
 
 		<ListBox Name="bridges" Grid.Row="0" ItemsSource="{Binding Bridges}" />
-		<Button Grid.Row="1" HorizontalAlignment="Right" Margin="5" Padding="5" Command="{Binding SelectBridge}" CommandParameter="{Binding SelectedItem,ElementName=bridges}">Select Bridge</Button>
+		<Button Grid.Row="1" HorizontalAlignment="Right" Margin="5" Padding="5" Command="{Binding SelectBridge}" CommandParameter="{Binding SelectedItem,ElementName=bridges}">select bridge</Button>
 	</Grid>
 </metro:Window>
