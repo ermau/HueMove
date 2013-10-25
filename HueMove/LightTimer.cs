@@ -23,6 +23,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -113,7 +114,15 @@ namespace HueMove
 			};
 			cmd = cmd.SetColor (255, 0, 0);
 
-			await this.client.SendCommandAsync (cmd, this.lastLights.Where (l => l.State.On).Select (l => l.Id));
+			var lights = this.lastLights.Where (l => l.State.On);
+			
+			if (Settings.Default.Lights != null) {
+				var enabled = new HashSet<string> (Settings.Default.Lights.Cast<string>());
+				if (enabled.Count > 0)
+					lights = lights.Where (l => enabled.Contains (l.Id));
+			}
+
+			await this.client.SendCommandAsync (cmd, lights.Select (l => l.Id));
 		}
 
 		private async Task RestoreLightsAsync (int seconds = 5)

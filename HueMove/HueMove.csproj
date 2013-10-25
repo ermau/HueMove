@@ -112,8 +112,12 @@
     <Compile Include="SelectBridgeWindow.xaml.cs">
       <DependentUpon>SelectBridgeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelectLightsWindow.xaml.cs">
+      <DependentUpon>SelectLightsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SnoozeCommand.cs" />
     <Compile Include="ViewModels\SelectBridgeViewModel.cs" />
+    <Compile Include="ViewModels\SelectLightsViewModel.cs" />
     <Compile Include="WindowExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SelectBridgeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SelectLightsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

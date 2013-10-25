@@ -56,6 +56,12 @@ namespace HueMove
 
 		public static LightTimer Timer;
 
+		public static HueClient Client
+		{
+			get;
+			private set;
+		}
+
 		public static readonly ICommand GetUp = new GettingUpCommand();
 		public static readonly ICommand Snooze = new SnoozeCommand();
 		public static readonly ICommand Back = new BackCommand();
@@ -138,19 +144,18 @@ namespace HueMove
 
 		private async void OnBridgeSelected (BridgeSelectedMessage msg)
 		{
-			HueClient client;
 			if (String.IsNullOrWhiteSpace (Settings.Default.BridgeUsername) || msg.Bridge != Settings.Default.Bridge) {
 				Settings.Default.Bridge = msg.Bridge;
 				Settings.Default.BridgeUsername = AppUsername;
 
-				client = new HueClient (msg.Bridge);
+				Client = new HueClient (msg.Bridge);
 
-				bool registered = !await client.RegisterAsync (AppName, AppUsername);
+				bool registered = !await Client.RegisterAsync (AppName, AppUsername);
 				if (!registered) {
 					ConnectWindow connect = new ConnectWindow();
 					connect.ShowToast();
 
-					while (!await client.RegisterAsync (AppName, AppUsername))
+					while (!await Client.RegisterAsync (AppName, AppUsername))
 						;
 
 					connect.Close();
@@ -158,11 +163,16 @@ namespace HueMove
 
 				Settings.Default.Save();
 			} else
-				client = new HueClient (msg.Bridge, Settings.Default.BridgeUsername);
+				Client = new HueClient (msg.Bridge, Settings.Default.BridgeUsername);
+
+			if (Settings.Default.Lights == null) {
+				SelectLightsWindow select = new SelectLightsWindow();
+				select.ShowDialog();
+			}
 
 			this.getUpMenuItem.Enabled = true;
 
-			Timer = new LightTimer (client);
+			Timer = new LightTimer (Client);
 			Timer.Start();
 		}
 

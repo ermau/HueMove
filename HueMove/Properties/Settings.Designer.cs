@@ -106,5 +106,16 @@ namespace HueMove.Properties {
                 this["Theme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection Lights {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Lights"]));
+            }
+            set {
+                this["Lights"] = value;
+            }
+        }
     }
 }
