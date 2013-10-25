@@ -49,19 +49,23 @@ namespace HueMove
 		public static readonly ICommand GetUp = new GettingUpCommand();
 		public static readonly ICommand Snooze = new SnoozeCommand();
 
-		private readonly Version Windows8 = new Version (6, 2);
+		private static readonly Version Windows8 = new Version (6, 2);
 
 		protected override async void OnStartup (StartupEventArgs e)
 		{
 			base.OnStartup (e);
 
+			SolidColorBrush textBrush = Brushes.White;
 			SolidColorBrush accentBrush = AccentBrushes.Blue;
-			/*if (Environment.OSVersion.Version.CompareTo (Windows8) >= 0) {
-				Color color = ColorFunctions.GetImmersiveColor (ImmersiveColors.ImmersiveControlDarkButtonBackgroundRest);
+			if (Settings.Default.EnableImmersiveColors && Environment.OSVersion.Version.CompareTo (Windows8) >= 0) {
+				Color color = ColorFunctions.GetImmersiveColor (ImmersiveColors.ImmersiveSaturatedSelectionBackground);
 				accentBrush = new SolidColorBrush (color);
-			}*/
 
-			Current.Apply (Theme.Dark, accentBrush, Brushes.White);
+				color = ColorFunctions.GetImmersiveColor (ImmersiveColors.ImmersiveSaturatedSelectionPrimaryText);
+				textBrush = new SolidColorBrush (color);
+			}
+
+			Current.Apply (Theme.Dark, accentBrush, textBrush);
 
 			Messenger.Default.Register<BridgeSelectedMessage> (this, OnBridgeSelected);
 			Messenger.Default.Register<MoveMessage> (this, OnMoveMessage);

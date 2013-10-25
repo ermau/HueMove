@@ -17,5 +17,8 @@
     <Setting Name="WorkTime" Type="System.TimeSpan" Scope="User">
       <Value Profile="(Default)">01:00:00</Value>
     </Setting>
+    <Setting Name="EnableImmersiveColors" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
