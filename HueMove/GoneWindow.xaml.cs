@@ -22,30 +22,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Linq;
-using System.Windows.Input;
-
 namespace HueMove
 {
-	class GettingUpCommand
-		: ICommand
+	/// <summary>
+	/// Interaction logic for GoneWindow.xaml
+	/// </summary>
+	public partial class GoneWindow
 	{
-		public event EventHandler CanExecuteChanged;
-
-		public bool CanExecute (object parameter)
+		public GoneWindow()
 		{
-			return App.Timer != null;
+			InitializeComponent();
 		}
 
-		public void Execute (object parameter)
+		private void OnBackClicked (object sender, System.Windows.RoutedEventArgs e)
 		{
-			bool timed = true;
-
-			if (parameter is bool)
-				timed = (bool) parameter;
-
-			App.Timer.GetUp (timed);
+			Close();
 		}
 	}
 }

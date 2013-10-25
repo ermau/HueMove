@@ -23,29 +23,23 @@
 // THE SOFTWARE.
 
 using System;
-using System.Linq;
 using System.Windows.Input;
 
 namespace HueMove
 {
-	class GettingUpCommand
+	class BackCommand
 		: ICommand
 	{
 		public event EventHandler CanExecuteChanged;
 
 		public bool CanExecute (object parameter)
 		{
-			return App.Timer != null;
+			return true;
 		}
 
 		public void Execute (object parameter)
 		{
-			bool timed = true;
-
-			if (parameter is bool)
-				timed = (bool) parameter;
-
-			App.Timer.GetUp (timed);
+			App.Timer.Back();
 		}
 	}
 }

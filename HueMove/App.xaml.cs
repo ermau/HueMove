@@ -23,14 +23,24 @@
 // THE SOFTWARE.
 
 using System;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using Elysium;
 using GalaSoft.MvvmLight.Messaging;
 using HueMove.Properties;
 using Q42.HueApi;
+using Application = System.Windows.Application;
+using Brushes = System.Windows.Media.Brushes;
+using Color = System.Windows.Media.Color;
+using ContextMenu = System.Windows.Forms.ContextMenu;
+using MenuItem = System.Windows.Forms.MenuItem;
 
 namespace HueMove
 {
@@ -48,6 +58,7 @@ namespace HueMove
 
 		public static readonly ICommand GetUp = new GettingUpCommand();
 		public static readonly ICommand Snooze = new SnoozeCommand();
+		public static readonly ICommand Back = new BackCommand();
 
 		private static readonly Version Windows8 = new Version (6, 2);
 
@@ -78,6 +89,8 @@ namespace HueMove
 			Messenger.Default.Register<BridgeSelectedMessage> (this, OnBridgeSelected);
 			Messenger.Default.Register<MoveMessage> (this, OnMoveMessage);
 
+			SetupTrayIcon();
+
 			if (String.IsNullOrWhiteSpace (Settings.Default.Bridge)) {
 				SelectBridgeWindow select = new SelectBridgeWindow();
 				select.Show();
@@ -86,8 +99,42 @@ namespace HueMove
 			}
 		}
 
+		private void SetupTrayIcon()
+		{
+			var contextMenu = new ContextMenu();
+
+			this.getUpMenuItem = new MenuItem ("Getting up") {
+				Enabled = false
+			};
+
+			this.getUpMenuItem.Click += (sender, args) => {
+				App.Timer.GetUp (timed: false);
+
+				var goneWindow = new GoneWindow();
+				goneWindow.ShowToast();
+			};
+
+			contextMenu.MenuItems.Add (getUpMenuItem);
+
+			contextMenu.MenuItems.Add (new MenuItem ("-"));
+
+			var exit = new MenuItem ("E&xit");
+			exit.Click += (o, e) => Application.Current.Shutdown();
+			contextMenu.MenuItems.Add (exit);
+
+			this.trayIcon = new NotifyIcon {
+				ContextMenu = contextMenu,
+				Icon = HueMove.Properties.Resources.TrayIcon
+			};
+
+			this.trayIcon.Visible = true;
+		}
+
 		private const string AppName = "HueMove";
 		private const string AppUsername = "HueMoveUser";
+
+		private NotifyIcon trayIcon;
+		private MenuItem getUpMenuItem;
 
 		private async void OnBridgeSelected (BridgeSelectedMessage msg)
 		{
@@ -112,6 +159,8 @@ namespace HueMove
 				Settings.Default.Save();
 			} else
 				client = new HueClient (msg.Bridge, Settings.Default.BridgeUsername);
+
+			this.getUpMenuItem.Enabled = true;
 
 			Timer = new LightTimer (client);
 			Timer.Start();

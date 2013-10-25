@@ -61,11 +61,14 @@ namespace HueMove
 			this.wait.Set();
 		}
 
-		public void GetUp()
+		public void GetUp (bool timed)
 		{
 			this.snooze = TimeSpan.FromSeconds (0);
 			this.onBreak = true;
-			this.wait.Set();
+			this.timedBreak = timed;
+
+			if (timed)
+				this.wait.Set();
 		}
 
 		public void Snooze()
@@ -74,8 +77,18 @@ namespace HueMove
 			this.wait.Set();
 		}
 
+		public void Back()
+		{
+			if (!this.onBreak)
+				return;
+
+			this.lastMoved = DateTime.Now;
+			this.wait.Set();
+		}
+
 		private readonly HueClient client;
 		private volatile bool isRunning = false;
+		private volatile bool timedBreak;
 		private volatile bool onBreak;
 		private DateTime lastMoved = DateTime.Now;
 		private TimeSpan snooze = TimeSpan.FromSeconds (0);
@@ -136,7 +149,7 @@ namespace HueMove
 		private void Runner()
 		{
 			while (this.isRunning) {
-				if (!onBreak && (DateTime.Now - lastMoved) > (Settings.Default.WorkTime + snooze)) {
+				if (!this.onBreak && (DateTime.Now - this.lastMoved) > (Settings.Default.WorkTime + this.snooze)) {
 					Messenger.Default.Send (new MoveMessage());
 
 					try {
@@ -148,7 +161,7 @@ namespace HueMove
 					wait.WaitOne(); // Wait for a user response
 					this.snooze += DateTime.Now - beforeAlert; // we want to snooze from the point we hit the button
 
-					if (onBreak) {
+					if (this.onBreak) {
 						TimeSpan breakLength = GetBreakTime();
 						this.lastMoved = DateTime.Now + breakLength;
 					} else {
@@ -157,13 +170,25 @@ namespace HueMove
 						} catch (WebException) {
 						}
 					}
-				} else if (onBreak && DateTime.Now > this.lastMoved) {
-					try {
-						RestoreLightsAsync().Wait();
-					} catch (WebException) {
+				} else if (this.onBreak) {
+					if (!timedBreak) {
+						try {
+							AlertLightsAsync().Wait();
+						} catch (WebException) {
+						}
+
+						wait.WaitOne();
 					}
 
-					onBreak = false;
+					var now = DateTime.Now;
+					if (now >= this.lastMoved) {
+						try {
+							RestoreLightsAsync (0).Wait();
+						} catch (WebException) {
+						}
+					}
+
+					this.onBreak = false;
 					this.snooze = TimeSpan.FromSeconds (0);
 				}
 
