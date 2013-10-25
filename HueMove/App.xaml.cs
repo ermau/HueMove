@@ -55,17 +55,25 @@ namespace HueMove
 		{
 			base.OnStartup (e);
 
-			SolidColorBrush textBrush = Brushes.White;
+			SolidColorBrush textBrush = (Settings.Default.Theme == Theme.Dark) ? Brushes.White : Brushes.Black;
 			SolidColorBrush accentBrush = AccentBrushes.Blue;
 			if (Settings.Default.EnableImmersiveColors && Environment.OSVersion.Version.CompareTo (Windows8) >= 0) {
-				Color color = ColorFunctions.GetImmersiveColor (ImmersiveColors.ImmersiveSaturatedSelectionBackground);
+				var backgroundColor = (Settings.Default.Theme == Theme.Dark)
+					? ImmersiveColors.ImmersiveSaturatedSelectionBackground
+					: ImmersiveColors.ImmersiveLightSelectionBackground;
+
+				Color color = ColorFunctions.GetImmersiveColor (backgroundColor);
 				accentBrush = new SolidColorBrush (color);
 
-				color = ColorFunctions.GetImmersiveColor (ImmersiveColors.ImmersiveSaturatedSelectionPrimaryText);
+				var textColor = (Settings.Default.Theme == Theme.Dark)
+					? ImmersiveColors.ImmersiveSaturatedSelectionPrimaryText
+					: ImmersiveColors.ImmersiveLightSelectionPrimaryText;
+
+				color = ColorFunctions.GetImmersiveColor (textColor);
 				textBrush = new SolidColorBrush (color);
 			}
 
-			Current.Apply (Theme.Dark, accentBrush, textBrush);
+			Current.Apply (Settings.Default.Theme, accentBrush, textBrush);
 
 			Messenger.Default.Register<BridgeSelectedMessage> (this, OnBridgeSelected);
 			Messenger.Default.Register<MoveMessage> (this, OnMoveMessage);
@@ -80,6 +88,7 @@ namespace HueMove
 
 		private const string AppName = "HueMove";
 		private const string AppUsername = "HueMoveUser";
+
 		private async void OnBridgeSelected (BridgeSelectedMessage msg)
 		{
 			HueClient client;

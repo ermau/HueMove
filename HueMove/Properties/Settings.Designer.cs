@@ -94,5 +94,17 @@ namespace HueMove.Properties {
                 this["EnableImmersiveColors"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Dark")]
+        public global::Elysium.Theme Theme {
+            get {
+                return ((global::Elysium.Theme)(this["Theme"]));
+            }
+            set {
+                this["Theme"] = value;
+            }
+        }
     }
 }

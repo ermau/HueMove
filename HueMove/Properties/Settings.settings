@@ -20,5 +20,8 @@
     <Setting Name="EnableImmersiveColors" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Theme" Type="Elysium.Theme" Scope="User">
+      <Value Profile="(Default)">Dark</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
