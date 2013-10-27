@@ -195,10 +195,10 @@ namespace HueMove
 							RestoreLightsAsync (0).Wait();
 						} catch (WebException) {
 						}
-					}
 
-					this.onBreak = false;
-					this.snooze = TimeSpan.FromSeconds (0);
+						this.onBreak = false;
+						this.snooze = TimeSpan.FromSeconds (0);
+					}
 				}
 
 				Thread.Sleep (1000);
