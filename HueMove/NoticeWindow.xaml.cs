@@ -22,17 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Linq;
 using System.Windows;
-using Window = Elysium.Controls.Window;
 
 namespace HueMove
 {
 	/// <summary>
 	/// Interaction logic for NoticeWindow.xaml
 	/// </summary>
-	public partial class NoticeWindow : Window
+	public partial class NoticeWindow
 	{
 		public NoticeWindow()
 		{

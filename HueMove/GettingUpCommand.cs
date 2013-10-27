@@ -23,7 +23,6 @@
 // THE SOFTWARE.
 
 using System;
-using System.Linq;
 using System.Windows.Input;
 
 namespace HueMove
