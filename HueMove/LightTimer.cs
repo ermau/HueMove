@@ -50,7 +50,7 @@ namespace HueMove
 				return;
 
 			this.isRunning = true;
-			Thread thread = new Thread (Runner);
+			Thread thread = new Thread (Runner) { IsBackground = true };
 			thread.Start();
 		}
 
